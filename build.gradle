@@ -28,8 +28,8 @@ dependencies {
         // 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     // *** security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	testImplementation 'org.springframework.security:spring-security-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	testImplementation 'org.springframework.security:spring-security-test'
 
     // *** database
         // runtimeOnly 'org.postgresql:postgresql'
@@ -51,7 +51,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.session:spring-session-core'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
 
 	// *** test
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

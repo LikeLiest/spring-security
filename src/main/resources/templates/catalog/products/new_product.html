@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Новый товар</title>
+</head>
+<body>
+<div class="container">
+    <div class="container">
+        <main>
+            <h1>Новый товар</h1>
+
+            <a th:href="@{/catalog/products/list}">Вернуться на страницу со списком товаров</a>
+            <form id="productForm" th:action="@{/catalog/products/create}" method="post">
+                <label for="name">
+                    Название:<br>
+                    <input type="text" name="name" id="name" required>
+                </label><br>
+                <label for="details">
+                    Описание:<br>
+                    <textarea name="details" id="details" required></textarea>
+                </label><br>
+                <button type="submit">Создать</button>
+            </form>
+        </main>
+    </div>
+
+</div>
+<script src="/main.js" defer></script>
+</body>
+</html>
