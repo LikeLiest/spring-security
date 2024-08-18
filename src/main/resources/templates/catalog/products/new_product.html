@@ -14,7 +14,7 @@
             <h1>Новый товар</h1>
 
             <a th:href="@{/catalog/products/list}">Вернуться на страницу со списком товаров</a>
-            <form id="productForm" th:action="@{/catalog/products/create}" method="post">
+            <form id="productForm"  enctype="multipart/form-data" th:action="@{/catalog/products/create}" method="post">
                 <label for="name">
                     Название:<br>
                     <input type="text" name="name" id="name" required>
@@ -23,12 +23,15 @@
                     Описание:<br>
                     <textarea name="details" id="details" required></textarea>
                 </label><br>
+
+                <input type="file" name="file" id="file">
+
                 <button type="submit">Создать</button>
             </form>
         </main>
     </div>
 
 </div>
-<script src="/main.js" defer></script>
+<!--<script src="/createProduct.js" defer></script>-->
 </body>
 </html>
