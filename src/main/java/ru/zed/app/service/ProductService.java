@@ -11,7 +11,8 @@ import java.util.Optional;
 public interface ProductService {
     List<ProductDTO> findAllProducts();
 
-    ProductEntity saveProduct(ProductEntity productEntity, MultipartFile file) throws IOException;
+    void saveProduct(ProductEntity productEntity, List<MultipartFile> file) throws IOException;
+    void saveProduct(ProductEntity productEntity);
 
     Optional<ProductDTO> findProduct(Long productId);
 

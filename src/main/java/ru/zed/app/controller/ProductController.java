@@ -2,8 +2,10 @@ package ru.zed.app.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,9 @@ import ru.zed.app.service.ProductService;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/catalog/products")
@@ -32,7 +36,8 @@ public class ProductController {
 
     private final ProductService productService;
     private final ImageService imageService;
-    private final MappingUtils mappingUtils;
+
+    private static final String REDIRECT_URL = "/catalog/products/list";
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String getProductsList(Model model) {
@@ -45,6 +50,17 @@ public class ProductController {
         ProductDTO productDTO = this.productService.findProduct(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("product", productDTO);
+        log.info("""
+                        ID: {}
+                        Name: {}
+                        Details: {}
+                        List: {}
+                        """,
+                productDTO.getId(),
+                productDTO.getName(),
+                productDTO.getDetails(),
+                productDTO.getProductImageList() != null ? productDTO.getProductImageList().toString() : "No images"
+        );
         return "/catalog/products/productPage";
     }
 
@@ -64,10 +80,18 @@ public class ProductController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> saveProduct(@ModelAttribute @Valid ProductEntity entity,
-                                            @RequestParam("file") MultipartFile file) throws IOException {
-        this.productService.saveProduct(entity, file);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<HttpStatus> saveProduct(@ModelAttribute @Valid ProductEntity entity,
+                                                  @RequestParam(value = "file", required = false) List<MultipartFile> files) throws IOException {
+        if (files == null || files.isEmpty()) {
+            log.info("No files uploaded, saving product without images.");
+            this.productService.saveProduct(entity);
+        } else {
+            log.info("Files uploaded: {}", files.size());
+            this.productService.saveProduct(entity, files);
+        }
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, REDIRECT_URL)
+                .build();
     }
 
     @DeleteMapping("/delete/{id}")

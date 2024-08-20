@@ -3,9 +3,13 @@ package ru.zed.app.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Data
+@ToString
+@EqualsAndHashCode
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,8 +22,16 @@ public class ProductImage {
     private byte[] bytes;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_entity_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
-}
 
+    @Override
+    public String toString() {
+        return "ProductImage{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", originalFileName='" + originalFileName + '\'' +
+                '}';
+    }
+}
