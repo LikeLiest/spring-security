@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Мой паспортъ</title>
+</head>
+<body>
+<div class="container">
+    <header class="header"></header>
+    <a href="createUser">createUser</a>
+
+    <main class="main">
+        <section class="info_about_user">
+            <div class="user_container">
+                <ul>
+                    <li data-th-each="user : ${users}">
+                        <span class="user-id" data-th-text="${user.getId()}"></span> <br>
+                        <span data-th-text="${user.getUsername()}"></span> <br>
+                        <span data-th-text="${user.getPassword()}"></span> <br>
+                        <span data-th-text="${user.getEmail()}"></span> <br>
+                        <span data-th-text="${user.getCountry()}"></span> <br>
+                        <span data-th-text="${user.getCity()}"></span> <br>
+                        <span data-th-text="${user.getLanguage()}"></span> <br>
+                        <span data-th-text="${user.getSex()}"></span> <br>
+                        <span data-th-text="${user.getAge()}"></span> <br>
+                        <img style="width: 300px; height: auto;"
+                             data-th-src="@{/api/images/{id} (id=${user.userImage.id})}" alt="user-image">
+                        <button class="delete-user" type="submit">Удалить</button>
+                    </li>
+                </ul>
+                <button id="deleteAllUsers" type="submit">Удалить всех</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const deleteUserButtons = document.querySelectorAll('.delete-user')
+
+        deleteUserButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const userId = button.closest('li').querySelector('.user-id').textContent;
+                console.log(userId)
+                fetch(`/LinkWorld/deleteUser/${userId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Пользователь успешно удален');
+                            reloadPage();
+                        } else {
+                            alert('Не удалось удалить пользователя')
+                        }
+                    })
+            });
+        });
+
+        const deleteAllUsersButton = document.getElementById('deleteAllUsers');
+        deleteAllUsersButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            fetch('/LinkWorld/deleteAllUsers', {
+                method: 'DELETE',
+            }).then(response => {
+                if (response.ok) {
+                    alert("Все пользователи удаленны");
+                    reloadPage();
+                } else {
+                    alert("Не удалось удалить всех пользователей")
+                }
+            })
+        })
+
+        function reloadPage() {
+            window.location.reload();
+        }
+    </script>
+
+    <footer class="footer"></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<a href="account">account</a>
+
+<form action="/LinkWorld/createUser" enctype="multipart/form-data" method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username"> <br>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password"> <br>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email"> <br>
+
+    <label for="city">City:</label>
+    <input type="text" name="city" id="city"> <br>
+
+    <label for="country">Country:</label>
+    <input type="text" name="country" id="country"> <br>
+
+    <label for="language">Language:</label>
+    <select name="language" id="language">
+        <option value="RUSSIAN">Russian</option>
+        <option value="SOVIET">Soviet</option>
+        <option value="EMPIRE_RUSSIAN">Empire Russian</option>
+        <option value="BELARUS">Belarus</option>
+        <option value="UKRAINE">Ukraine</option>
+        <option value="POLSKA">Polska</option>
+        <option value="AMERICAN_ENGLISH">American English</option>
+        <option value="BRITISH_ENGLISH">British English</option>
+    </select> <br>
+
+    <label for="sex">Sex:</label>
+    <select name="sex" id="sex">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select> <br>
+
+    <label for="age">Age:</label>
+    <input type="number" name="age" id="age"> <br>
+
+    <label for="userImage">User Image:</label>
+    <input type="file" name="userImage" id="userImage"> <br>
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
