@@ -1,5 +1,7 @@
 package ru.zed.app.controller.account;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,11 +22,18 @@ public class AccountController{
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("account")
-    public String accountPage(Model model, Principal principal, HttpSession session) {
+    public String accountPage(Model model, Principal principal, HttpSession session, HttpServletResponse response) {
         Optional<UserEntity> user = this.userService.findUserByUsername(principal.getName());
+
         if (user.isPresent()) {
             UserEntity entity = user.get();
             session.setAttribute("user", entity);
+
+            Cookie cookie = new Cookie("username", entity.getUsername());
+            cookie.setMaxAge(60);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
             model.addAttribute("user", entity);
         }
         return "account";

@@ -1,6 +1,9 @@
 package ru.zed.app.controller.account;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,12 +21,14 @@ public class DeleteUserController {
     private final LWUserService userService;
 
     @DeleteMapping("deleteUser/{id:\\d+}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUserById(@PathVariable Long id, HttpSession session) {
+        session.setAttribute("user", null);
         return deleteUserFromDatabase(id);
     }
 
     @DeleteMapping("deleteUser/{username:[a-zA-Z]+}")
-    public ResponseEntity<String> deleteUserByUsername(@PathVariable String username) {
+    public ResponseEntity<String> deleteUserByUsername(@PathVariable String username, HttpSession session) {
+        session.setAttribute("user", null);
         return deleteUserFromDatabase(username);
     }
 

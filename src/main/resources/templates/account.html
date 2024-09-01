@@ -12,6 +12,7 @@
 <div class="container">
     <header class="header"></header>
     <a data-th-href="${'/LinkWorld/session/session'}">Сессия</a>
+    <a data-th-href="${'/LinkWorld/cookie/getCookie'}">Куки</a>
 
     <main class="main">
         <section class="info_about_user">
@@ -35,53 +36,8 @@
         </section>
     </main>
 
-    <script>
-        const deleteUserButtons = document.querySelectorAll('.delete-user')
-
-        deleteUserButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
-                const userId = button.closest('div').querySelector('.user-id').textContent;
-                console.log(userId)
-                fetch(`/LinkWorld/deleteUser/${userId}`, {
-                    method: 'DELETE',
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            alert('Пользователь успешно удален');
-                            toLoginPage();
-                        } else {
-                            alert('Не удалось удалить пользователя')
-                        }
-                    })
-            });
-        });
-
-        function logout() {
-            fetch('http://localhost:8080/LinkWorld/auth/logout', {
-                method: 'GET',
-                credentials: 'same-origin'
-            }).then(response => {
-                if (response.ok) {
-                    reloadPage();
-                } else {
-                    console.error('Logout failed');
-                }
-            }).catch(error => {
-                console.error('Network error:', error);
-            });
-        }
-
-        function reloadPage() {
-            window.location.reload();
-        }
-
-        function toLoginPage() {
-            window.location = 'http://localhost:8080/LinkWorld/auth/login';
-        }
-    </script>
-
     <footer class="footer"></footer>
 </div>
+<script src="/main.js" defer></script>
 </body>
 </html>
