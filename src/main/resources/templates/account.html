@@ -11,7 +11,7 @@
 <body>
 <div class="container">
     <header class="header"></header>
-    <a href="createUser">createUser</a>
+    <a data-th-href="${'/LinkWorld/session/session'}">Сессия</a>
 
     <main class="main">
         <section class="info_about_user">
@@ -25,9 +25,12 @@
                 <span data-th-text="${user.getSex()}"></span> <br>
                 <span data-th-text="${user.getAge()}"></span> <br>
                 <img style="width: 300px; height: auto;"
+                     loading="lazy"
                      data-th-src="@{/api/images/{id} (id=${user.userImage.id})}" alt="user-image">
                 <button class="delete-user" type="submit">Удалить</button>
-                <button id="deleteAllUsers" type="submit">Удалить всех</button>
+            </div>
+            <div>
+                <button onclick="logout()" type="submit">Выйти из аккаунта</button>
             </div>
         </section>
     </main>
@@ -38,7 +41,7 @@
         deleteUserButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
-                const userId = button.closest('li').querySelector('.user-id').textContent;
+                const userId = button.closest('div').querySelector('.user-id').textContent;
                 console.log(userId)
                 fetch(`/LinkWorld/deleteUser/${userId}`, {
                     method: 'DELETE',
@@ -46,7 +49,7 @@
                     .then(response => {
                         if (response.ok) {
                             alert('Пользователь успешно удален');
-                            reloadPage();
+                            toLoginPage();
                         } else {
                             alert('Не удалось удалить пользователя')
                         }
@@ -54,23 +57,27 @@
             });
         });
 
-        const deleteAllUsersButton = document.getElementById('deleteAllUsers');
-        deleteAllUsersButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            fetch('/LinkWorld/deleteAllUsers', {
-                method: 'DELETE',
+        function logout() {
+            fetch('http://localhost:8080/LinkWorld/auth/logout', {
+                method: 'GET',
+                credentials: 'same-origin'
             }).then(response => {
                 if (response.ok) {
-                    alert("Все пользователи удаленны");
                     reloadPage();
                 } else {
-                    alert("Не удалось удалить всех пользователей")
+                    console.error('Logout failed');
                 }
-            })
-        })
+            }).catch(error => {
+                console.error('Network error:', error);
+            });
+        }
 
         function reloadPage() {
             window.location.reload();
+        }
+
+        function toLoginPage() {
+            window.location = 'http://localhost:8080/LinkWorld/auth/login';
         }
     </script>
 

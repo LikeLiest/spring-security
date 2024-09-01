@@ -1,5 +1,6 @@
 package ru.zed.app.controller.auth;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,14 @@ public class Register {
 
     @PostMapping("register")
     public ResponseEntity<?> createUser(@Valid @ModelAttribute UserDTO dto,
-                                        @RequestParam MultipartFile userImage) {
+                                        @RequestParam MultipartFile userImage,
+                                        HttpSession session) {
         try {
             UserEntity entity = Mapping.toEntity(dto);
             entity.setRoles(List.of(Roles.USER));
-            entity.setPassword(encoder.encode(entity.getPassword()));
+            entity.setPassword(encoder.encode(entity.getPassword()));;
+
+            session.setAttribute("user", entity);
 
             log.info("saved user: {}", entity.getUsername());
             userService.saveUserToDatabase(entity, userImage);

@@ -8,11 +8,15 @@
     <title>Document</title>
 </head>
 <body>
+
 <form action="/LinkWorld/auth/login" method="post">
     <input type="text" placeholder="username" name="username" id="username"> <br>
     <input type="password" placeholder="password" name="password" id="password"> <br>
     <button type="submit">Войти</button>
 </form>
+
+<a data-th-href="${'/LinkWorld/account'}">Аккаунт</a>
 <a data-th-href="${'/LinkWorld/auth/register'}">Нет аккаунта?</a>
+<a data-th-href="${'/LinkWorld/session/session'}">Сессия</a>
 </body>
 </html>

@@ -1,14 +1,13 @@
 package ru.zed.app.configuration.securityConfiguration;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,8 +25,8 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/LinkWorld/auth/**", "/LinkWorld/account").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/LinkWorld/auth/register").permitAll()
+                        .requestMatchers("/LinkWorld/auth/register", "/LinkWorld/auth/login").anonymous()
+                        .requestMatchers("/LinkWorld/session/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -35,15 +34,20 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/LinkWorld/account")
                         .permitAll()
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/LinkWorld/auth/logout")
+                        .logoutSuccessUrl("/LinkWorld/auth/login")
+                        .permitAll())
                 .exceptionHandling(exc -> exc.authenticationEntryPoint((_, response, _) ->
-                        response.sendRedirect("/LinkWorld/auth/login")))
+                                response.sendRedirect("/LinkWorld/auth/login"))
+                )
                 .build();
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
-//        return auth.getAuthenticationManager();
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/LinkWorld/error/403");
+    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

@@ -1,5 +1,6 @@
 package ru.zed.app.controller.account;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,11 @@ public class AccountController{
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("account")
-    public String accountPage(Model model, Principal principal) {
+    public String accountPage(Model model, Principal principal, HttpSession session) {
         Optional<UserEntity> user = this.userService.findUserByUsername(principal.getName());
         if (user.isPresent()) {
             UserEntity entity = user.get();
+            session.setAttribute("user", entity);
             model.addAttribute("user", entity);
         }
         return "account";

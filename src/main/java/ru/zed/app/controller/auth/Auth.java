@@ -1,5 +1,6 @@
 package ru.zed.app.controller.auth;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +25,16 @@ public class Auth {
     private static final Logger logger = LoggerFactory.getLogger(Auth.class);
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
         Optional<UserEntity> userEntity = this.userService.findUserByUsername(username);
 
         if (userEntity.isPresent()) {
             UserEntity entity = userEntity.get();
             if (encoder.matches(password, entity.getPassword())) {
                 logger.info("Пароли совпали");
+                session.setAttribute("user", entity);
                 return ResponseEntity.ok()
-                        .header(HttpHeaders.LOCATION, "LinkWorld/account").build();
+                        .header(HttpHeaders.LOCATION, "/LinkWorld/account").build();
             } else {
                 logger.info("Пароли не совпали");
                 return  ResponseEntity.badRequest()

@@ -8,7 +8,9 @@
     <title>Регистрация</title>
 </head>
 <body>
-<a href="account">account</a>
+<a data-th-href="@{/LinkWorld/account}">Аккаунт</a>
+<a data-th-href="@{/LinkWorld/auth/login}">Авторизоваться</a>
+<a data-th-href="@{/LinkWorld/session/session}">Сессия</a>
 
 <form action="/LinkWorld/auth/register" enctype="multipart/form-data" method="post">
     <label for="username">Username:</label>
