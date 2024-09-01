@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/account.css">
     <title>Мой паспортъ</title>
 </head>
 <body>
@@ -15,22 +16,17 @@
     <main class="main">
         <section class="info_about_user">
             <div class="user_container">
-                <ul>
-                    <li data-th-each="user : ${users}">
-                        <span class="user-id" data-th-text="${user.getId()}"></span> <br>
-                        <span data-th-text="${user.getUsername()}"></span> <br>
-                        <span data-th-text="${user.getPassword()}"></span> <br>
-                        <span data-th-text="${user.getEmail()}"></span> <br>
-                        <span data-th-text="${user.getCountry()}"></span> <br>
-                        <span data-th-text="${user.getCity()}"></span> <br>
-                        <span data-th-text="${user.getLanguage()}"></span> <br>
-                        <span data-th-text="${user.getSex()}"></span> <br>
-                        <span data-th-text="${user.getAge()}"></span> <br>
-                        <img style="width: 300px; height: auto;"
-                             data-th-src="@{/api/images/{id} (id=${user.userImage.id})}" alt="user-image">
-                        <button class="delete-user" type="submit">Удалить</button>
-                    </li>
-                </ul>
+                <span class="user-id" data-th-text="${user.getId()}"></span> <br>
+                <span data-th-text="${user.getUsername()}"></span> <br>
+                <span data-th-text="${user.getEmail()}"></span> <br>
+                <span data-th-text="${user.getCountry()}"></span> <br>
+                <span data-th-text="${user.getCity()}"></span> <br>
+                <span data-th-text="${user.getLanguage()}"></span> <br>
+                <span data-th-text="${user.getSex()}"></span> <br>
+                <span data-th-text="${user.getAge()}"></span> <br>
+                <img style="width: 300px; height: auto;"
+                     data-th-src="@{/api/images/{id} (id=${user.userImage.id})}" alt="user-image">
+                <button class="delete-user" type="submit">Удалить</button>
                 <button id="deleteAllUsers" type="submit">Удалить всех</button>
             </div>
         </section>

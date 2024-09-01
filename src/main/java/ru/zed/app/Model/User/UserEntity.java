@@ -7,6 +7,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Valid
@@ -21,7 +24,7 @@ public class UserEntity {
     private String username;
 
     @NotEmpty(message = "Введите пароль")
-    @Size(max = 20, min = 3, message = "Пароль должен быть от 3 до 20 символов")
+    @Size(max = 100, min = 3, message = "Пароль слишком длинный")
     private String password;
 
     @Column(unique = true)
@@ -30,6 +33,10 @@ public class UserEntity {
 
     private String city;
     private String country;
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Roles.class)
+    @Enumerated(EnumType.STRING)
+    private List<Roles> roles = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Language language;
