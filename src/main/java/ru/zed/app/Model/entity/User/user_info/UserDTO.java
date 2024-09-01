@@ -1,7 +1,5 @@
-package ru.zed.app.Model.User;
+package ru.zed.app.Model.entity.User.user_info;
 
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -10,13 +8,10 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
 @Data
 @Valid
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserDTO {
 
     @Column(unique = true)
     @NotEmpty(message = "Введите логин")
@@ -34,26 +29,16 @@ public class UserEntity {
     private String city;
     private String country;
 
+    @Enumerated(EnumType.STRING)
+    private Language language;
+
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Roles.class)
     @Enumerated(EnumType.STRING)
     private List<Roles> roles = new ArrayList<>();
-
-    @Enumerated(EnumType.STRING)
-    private Language language;
 
     @Pattern(regexp = "^(Male|Female)$", message = "Пол должен быть 'Male', 'Female'")
     private String sex;
 
     @Min(value = 0, message = "Возраст не может быть отрицательным")
     private int age;
-
-    @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "user_image_id")
-    private UserImage userImage;
-
-    public void addImageToOwner(UserImage image) {
-        image.setUserEntity(this);
-        this.userImage  = image;
-    }
 }

@@ -1,8 +1,9 @@
-package ru.zed.app.Model.User;
+package ru.zed.app.Model.entity.User.user_info;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import ru.zed.app.Model.entity.User.UserEntity;
 
 @Data
 @Entity

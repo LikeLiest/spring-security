@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.zed.app.Model.User.Roles;
-import ru.zed.app.Model.User.UserEntity;
+import ru.zed.app.Model.entity.User.user_info.Roles;
+import ru.zed.app.Model.entity.User.UserEntity;
 import ru.zed.app.repository.UserRepository;
 
 import java.util.List;

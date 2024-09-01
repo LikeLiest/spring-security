@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import ru.zed.app.Model.User.UserImage;
+import ru.zed.app.Model.entity.User.user_info.UserImage;
 import ru.zed.app.repository.UserImageRepository;
 
 import java.io.ByteArrayInputStream;
