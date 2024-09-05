@@ -33,15 +33,14 @@ public class Register {
                                         HttpSession session) {
         try {
             UserEntity entity = Mapping.toEntity(dto);
-            entity.setRoles(List.of(Roles.USER));
+            entity.setRoles(List.of(Roles.ADMIN));
             entity.setPassword(encoder.encode(entity.getPassword()));;
 
             session.setAttribute("user", entity);
 
             log.info("saved user: {}", entity.getUsername());
             userService.saveUserToDatabase(entity, userImage);
-            return ResponseEntity
-                    .status(HttpStatus.FOUND)
+            return ResponseEntity.status(HttpStatus.FOUND)
                     .header(HttpHeaders.LOCATION, REDIRECT_TO_ACCOUNT_PAGE).build();
         } catch (Exception e) {
             log.error("Ошибка при создании пользователя", e);

@@ -1,10 +1,12 @@
 package ru.zed.app.controller.account;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,23 +22,29 @@ import java.util.Optional;
 public class DeleteUserController {
     private final LWUserService userService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("deleteUser/{id:\\d+}")
     public ResponseEntity<String> deleteUserById(@PathVariable Long id, HttpSession session) {
-        session.setAttribute("user", null);
+        session.invalidate();
         return deleteUserFromDatabase(id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("deleteUser/{username:[a-zA-Z]+}")
     public ResponseEntity<String> deleteUserByUsername(@PathVariable String username, HttpSession session) {
-        session.setAttribute("user", null);
+        session.invalidate();
         return deleteUserFromDatabase(username);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("deleteAllUsers")
-    public ResponseEntity<String> deleteAllUsers() {
+    public ResponseEntity<String> deleteAllUsers(HttpSession session) {
         this.userService.deleteAllUsers();
+
         if (this.userService.findAllUsers().isEmpty()) {
+            session.invalidate();
             return ResponseEntity.ok("Все пользователи удалены");
+
         }
         return ResponseEntity.badRequest().body("Не удалось удалить всех пользователей");
     }
@@ -56,5 +64,13 @@ public class DeleteUserController {
 
         return entity.map(userEntity -> ResponseEntity.ok("Пользователь успешно удален" + userEntity.getUsername()))
                 .orElseGet(() -> ResponseEntity.ok("Пользователь успешно удален"));
+    }
+
+    private void clearCookies(HttpServletResponse response) {
+        Cookie cookie = new Cookie("username", "");
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        cookie.setValue("");
+        response.addCookie(cookie);
     }
 }

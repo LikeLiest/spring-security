@@ -29,18 +29,16 @@ public class Auth {
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password,
-                                   HttpSession session, HttpServletResponse response) {
+                                   HttpSession session) {
         Optional<UserEntity> userEntity = this.userService.findUserByUsername(username);
 
         if (userEntity.isPresent()) {
             UserEntity entity = userEntity.get();
 
-            Cookie cookie = new Cookie("username", entity.getUsername());
-            response.addCookie(cookie);
-
             if (encoder.matches(password, entity.getPassword())) {
                 logger.info("Пароли совпали");
                 session.setAttribute("user", entity);
+
                 return ResponseEntity.ok()
                         .header(HttpHeaders.LOCATION, "/LinkWorld/account").build();
             } else {

@@ -26,15 +26,20 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/LinkWorld/auth/register", "/LinkWorld/auth/login").anonymous()
+                        .requestMatchers("/all-users").hasAuthority("ADMIN")
+                        .requestMatchers("/LinkWorld/cookie/**").permitAll()
                         .requestMatchers("/LinkWorld/session/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/LinkWorld/auth/login")
+                        .failureUrl("/LinkWorld/auth/login?error")
                         .defaultSuccessUrl("/LinkWorld/account")
                         .permitAll()
                 )
                 .logout(logout -> logout
+                        .invalidateHttpSession(true)
+                        .deleteCookies("username")
                         .logoutUrl("/LinkWorld/auth/logout")
                         .logoutSuccessUrl("/LinkWorld/auth/login")
                         .permitAll())
@@ -42,11 +47,6 @@ public class SecurityConfig {
                                 response.sendRedirect("/LinkWorld/auth/login"))
                 )
                 .build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/LinkWorld/error/403");
     }
 
     @Bean

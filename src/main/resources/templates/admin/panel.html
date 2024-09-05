@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Административная панель</title>
+</head>
+<body>
+<div class="container">
+    <div>
+        <ul>
+            <li data-th-each="user : ${users}">
+                <button id="user-id" th:value="${user.id}" onclick="deleteCurrentUser(this)" type="submit">Удалить
+                </button>
+
+                <form data-th-action="@{/LinkWorld/setAuthorityAdmin}" method="post">
+                    <input type="hidden" name="id" th:value="${user.id}">
+                    <button type="submit">Сделать админом</button>
+                </form>
+
+                <span data-th-text="${user.id}"></span>
+                <span data-th-text="${user.username}"></span>
+                <span data-th-text="${user.age}"></span>
+                <span data-th-text="${user.language}"></span>
+                <span data-th-text="${user.city}"></span>
+                <span data-th-text="${user.country}"></span>
+                <span data-th-text="${user.sex}"></span>
+                <span data-th-text="${user.roles}"></span>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <button id="deleteAllUsers" onclick="deleteAllUsers()" type="submit">Удалить всех пользователей</button>
+    </div>
+
+    <script>
+        const button = document.getElementById('user-id');
+        const userId = button.closest('li').querySelector('#user-id').textContent;
+        console.log(userId)
+
+        function deleteCurrentUser(button) {
+            const userId = button.value;
+            console.log(userId);
+
+            fetch(`/LinkWorld/deleteUser/${userId}`, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    alert('Пользователь успешно удален');
+                    window.location.reload();
+                } else {
+                    alert('Не удалось удалить пользователя');
+                }
+            });
+        }
+
+        function deleteAllUsers() {
+            fetch('/LinkWorld/deleteAllUsers', {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    alert('Все пользователи успешно удалены')
+                    window.location.reload();
+                } else {
+                    alert('Не удалось удалить всех пользователей')
+                }
+            })
+        }
+
+    </script>
+</div>
+</body>
+</html>

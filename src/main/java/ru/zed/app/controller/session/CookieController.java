@@ -30,14 +30,6 @@ public class CookieController {
         return "cookie/cookie";
     }
 
-//    @GetMapping("/getCookie")
-//    public String getCookie(@CookieValue(value = "username", defaultValue = "Ivan") String username, Principal principal, HttpServletRequest request, Model model) {
-//        Cookie cookie = new Cookie("username", principal.getName());
-//
-//        model.addAttribute("username", cookie.getValue());
-//        return "cookie/getCookie";
-//    }
-
     @GetMapping("/getCookie")
     public String getCookie(@CookieValue(name = "username", defaultValue = "Ivan") String username, Model model) {
         model.addAttribute("username", username);
