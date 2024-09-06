@@ -9,6 +9,10 @@
 </head>
 <body>
 <div class="container">
+    <a data-th-href="${'/LinkWorld/session/session'}">Сессия</a>
+    <a data-th-href="${'/LinkWorld/cookie/getCookie'}">Куки</a>
+    <a data-th-href="${'/LinkWorld/user/account'}">Аккаунт</a>
+
     <div>
         <ul>
             <li data-th-each="user : ${users}">

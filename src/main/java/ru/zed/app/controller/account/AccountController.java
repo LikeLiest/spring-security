@@ -21,7 +21,7 @@ public class AccountController{
     private final LWUserService userService;
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    @GetMapping("account")
+    @GetMapping("user/account")
     public String accountPage(Model model, Principal principal, HttpSession session, HttpServletResponse response) {
         Optional<UserEntity> user = this.userService.findUserByUsername(principal.getName());
 
@@ -36,6 +36,6 @@ public class AccountController{
 
             model.addAttribute("user", entity);
         }
-        return "account";
+        return "user/account";
     }
 }

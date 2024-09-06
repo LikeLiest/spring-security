@@ -9,7 +9,10 @@
 </head>
 <body>
 <h1>Session Information</h1>
-<a data-th-href="${'/LinkWorld/account'}">Аккаунт</a>
+<a data-th-href="${'/LinkWorld/session/session'}">Сессия</a>
+<a data-th-href="${'/LinkWorld/cookie/getCookie'}">Куки</a>
+<a data-th-href="${'/LinkWorld/user/account'}">Аккаунт</a>
+
 <div>
     <h2>User Details:</h2>
     <p th:if="${user != null}">

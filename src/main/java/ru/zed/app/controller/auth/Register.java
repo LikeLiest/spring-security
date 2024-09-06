@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.zed.app.Model.Mapping.Mapping;
@@ -18,15 +19,21 @@ import ru.zed.app.service.LWUserService;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/LinkWorld/auth/")
 @Slf4j
 public class Register {
     private final LWUserService userService;
     private final PasswordEncoder encoder;
-    private static final String REDIRECT_TO_ACCOUNT_PAGE = "/LinkWorld/account";
+    private static final String REDIRECT_TO_ACCOUNT_PAGE = "/LinkWorld/user/account";
 
+    @GetMapping("register")
+    public String registerPage() {
+        return "auth/register";
+    }
+
+    @ResponseBody
     @PostMapping("register")
     public ResponseEntity<?> createUser(@Valid @ModelAttribute UserDTO dto,
                                         @RequestParam MultipartFile userImage,

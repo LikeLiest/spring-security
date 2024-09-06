@@ -1,8 +1,5 @@
 package ru.zed.app.controller.auth;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -40,7 +37,7 @@ public class Auth {
                 session.setAttribute("user", entity);
 
                 return ResponseEntity.ok()
-                        .header(HttpHeaders.LOCATION, "/LinkWorld/account").build();
+                        .header(HttpHeaders.LOCATION, "/LinkWorld/user/account").build();
             } else {
                 logger.info("Пароли не совпали");
                 return ResponseEntity.badRequest()
@@ -49,7 +46,7 @@ public class Auth {
         } else {
             logger.info("Ошибка");
             return ResponseEntity.badRequest()
-                    .header(HttpHeaders.LOCATION, "LinkWorld:/login?error").build();
+                    .header(HttpHeaders.LOCATION, "LinkWorld:/auth/login?error").build();
         }
     }
 }

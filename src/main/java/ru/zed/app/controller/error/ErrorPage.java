@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ErrorPage {
 
-    @GetMapping("/LinkWorld/error/403")
+    @GetMapping("/LinkWorld/error/404")
     public String errorPage() {
-        return "error/403";
+        return "error/404";
     }
 }
