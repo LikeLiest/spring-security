@@ -37,7 +37,7 @@ public class Auth {
                 session.setAttribute("user", entity);
 
                 return ResponseEntity.ok()
-                        .header(HttpHeaders.LOCATION, "/LinkWorld/user/account").build();
+                        .header(HttpHeaders.LOCATION, "http://localhost:8080/LinkWorld/auth/login").build();
             } else {
                 logger.info("Пароли не совпали");
                 return ResponseEntity.badRequest()

@@ -13,9 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CsrfAuthenticationStrategy;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+import org.springframework.web.client.RestTemplate;
 import ru.zed.app.controller.filter.RedirectAuthenticatedUserFilter;
 import ru.zed.app.service.CustomUserDetailsService;
 
@@ -26,14 +24,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
-
         return http
                 .csrf(AbstractHttpConfigurer::disable
-//                        .csrfTokenRequestHandler(new XorCsrfTokenRequestAttributeHandler())
-//                        .csrfTokenRepository(httpSessionCsrfTokenRepository)
-//                        // Выполнить действия после успешной аутентификации
-//                        .sessionAuthenticationStrategy(new CsrfAuthenticationStrategy(httpSessionCsrfTokenRepository))
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/LinkWorld/auth/**").anonymous()
@@ -60,6 +52,11 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(new RedirectAuthenticatedUserFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public RestTemplate template() {
+        return new RestTemplate();
     }
 
     @Bean

@@ -13,12 +13,16 @@ public class RedirectAuthenticatedUserFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() &&
-                ("/LinkWorld/auth/login").equals(request.getRequestURI()) ||
-                ("/LinkWorld/auth/register").equals(request.getRequestURI())) {
-            response.sendRedirect("/LinkWorld/user/account");
-            return;
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            String requestURI = request.getRequestURI();
+
+            if ("/LinkWorld/auth/login".equals(requestURI) || "/LinkWorld/auth/register".equals(requestURI)) {
+                response.sendRedirect("/LinkWorld/user/account");
+                return;
+            }
         }
+
         filterChain.doFilter(request, response);
     }
 }
