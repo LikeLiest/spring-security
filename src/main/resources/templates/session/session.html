@@ -23,9 +23,10 @@
         <strong>страна:</strong> <span th:text="${user.country}"></span><br>
         <strong>город:</strong> <span th:text="${user.city}"></span><br>
         <strong>язык:</strong> <span th:text="${user.language}"></span><br>
-        <strong>пол:</strong> <span th:text="${user.sex}"></span><br>
+        <strong>пол:</strong> <span th:text="${user.gender}"></span><br>
         <strong>возраст:</strong> <span th:text="${user.age}"></span><br>
-        <strong>фото:</strong> <img style="width: 200px; height: auto;" data-th-src="@{/api/images/{id}(id=${user.userImage.id})}"/><br>
+        <strong>фото:</strong>
+        <img th:if="${user.userImage}" style="width: 90px; height: auto; border-radius: 12px" data-th-src="@{/api/images/{id}(id=${user.userImage.id})}"/><br>
     </p>
     <p th:if="${user == null}">
         No user is currently logged in.

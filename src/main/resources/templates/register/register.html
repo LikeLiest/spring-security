@@ -14,24 +14,29 @@
 <a data-th-href="${'/LinkWorld/user/account'}">Аккаунт</a>
 <a data-th-href="${'/LinkWorld/admin'}">Административная панель</a>
 
-<form action="/LinkWorld/auth/register" enctype="multipart/form-data" method="post">
+<form action="/LinkWorld/auth/register" enctype="multipart/form-data" method="post" th:object="${userDTO}">
     <label for="username">Username:</label>
-    <input type="text" name="username" id="username"> <br>
+    <input type="text" name="username" id="username" th:field="*{username}">
+    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span> <br>
 
     <label for="password">Password:</label>
-    <input type="password" name="password" id="password"> <br>
+    <input type="password" name="password" id="password" th:field="*{password}">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span> <br>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email"> <br>
+    <input type="email" name="email" id="email" th:field="*{email}">
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span> <br>
 
     <label for="city">City:</label>
-    <input type="text" name="city" id="city"> <br>
+    <input type="text" name="city" id="city" th:field="*{city}">
+    <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span> <br>
 
     <label for="country">Country:</label>
-    <input type="text" name="country" id="country"> <br>
+    <input type="text" name="country" id="country" th:field="*{country}">
+    <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span> <br>
 
     <label for="language">Language:</label>
-    <select name="language" id="language">
+    <select name="language" id="language" th:field="*{language}">
         <option value="RUSSIAN">Russian</option>
         <option value="SOVIET">Soviet</option>
         <option value="EMPIRE_RUSSIAN">Empire Russian</option>
@@ -40,19 +45,22 @@
         <option value="POLSKA">Polska</option>
         <option value="AMERICAN_ENGLISH">American English</option>
         <option value="BRITISH_ENGLISH">British English</option>
-    </select> <br>
+    </select>
+    <span th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></span> <br>
 
-    <label for="sex">Sex:</label>
-    <select name="sex" id="sex">
+    <label for="gender">Gender:</label>
+    <select name="gender" id="gender" th:field="*{gender}">
         <option value="Male">Male</option>
         <option value="Female">Female</option>
-    </select> <br>
+    </select>
+    <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span> <br>
 
     <label for="age">Age:</label>
-    <input type="number" name="age" id="age"> <br>
+    <input type="number" name="age" id="age" th:field="*{age}">
+    <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span> <br>
 
     <label for="userImage">User Image:</label>
-    <input type="file" name="userImage" id="userImage"> <br>
+    <input type="file" name="userImage" id="userImage">
 
     <button type="submit">Submit</button>
 </form>

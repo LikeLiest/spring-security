@@ -23,12 +23,10 @@ public class UserEntity {
     private Long id;
 
     @Column(unique = true)
-    @NotBlank(message = "Введите логин")
     @Size(message = "Логин должен содержать от 3 до 20 символов", max = 20, min = 3)
     private String username;
 
-    @NotBlank(message = "Введите пароль")
-    @Size(max = 100, min = 3, message = "Пароль слишком длинный")
+    @Size(max = 100, min = 3, message = "Пароль должен от 3 до 100 символов")
     private String password;
 
     @Column(unique = true)
@@ -36,7 +34,12 @@ public class UserEntity {
     @Email(message = "Введите корректный email")
     private String email;
 
+    @NotNull(message = "Укажите свой город")
+    @NotBlank(message = "Введите город")
     private String city;
+
+    @NotNull(message = "Укажите свою страну")
+    @NotBlank(message = "Введите страну")
     private String country;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Roles.class)
@@ -47,8 +50,10 @@ public class UserEntity {
     private Language language;
 
     @Pattern(regexp = "^(Male|Female)$", message = "Пол должен быть 'Male', 'Female'")
-    private String sex;
+    private String gender;
 
+    @NotNull(message = "Укажите свой возраст")
+    @Max(value = 100, message = "Возраст не может быть больше 100")
     @Min(value = 0, message = "Возраст не может быть отрицательным")
     private int age;
 
@@ -56,6 +61,22 @@ public class UserEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "user_image_id")
     private UserImage userImage;
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", roles=" + roles +
+                ", language=" + language +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                '}';
+    }
 
     public void addImageToOwner(UserImage image) {
         image.setUserEntity(this);

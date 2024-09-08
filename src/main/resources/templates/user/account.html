@@ -5,38 +5,34 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/account.css">
     <title>Мой паспортъ</title>
 </head>
 <body>
 <div class="container">
-    <header class="header"></header>
-    <a data-th-href="${'/LinkWorld/session/session'}">Сессия</a>
-    <a data-th-href="${'/LinkWorld/cookie/getCookie'}">Куки</a>
-    <a data-th-href="${'/LinkWorld/user/account'}">Аккаунт</a>
-    <a data-th-href="${'/LinkWorld/admin'}">Административная панель</a>
+    <header class="header">
+        <a data-th-href="${'/LinkWorld/session/session'}">Сессия</a>
+        <a data-th-href="${'/LinkWorld/cookie/getCookie'}">Куки</a>
+        <a data-th-href="${'/LinkWorld/user/account'}">Аккаунт</a>
+        <a data-th-href="${'/LinkWorld/admin'}">Административная панель</a>
+    </header>
 
-    <main class="main">
-        <section class="info_about_user">
-            <div class="user_container">
-                <span class="user-id" data-th-text="${user.getId()}"></span> <br>
-                <span data-th-text="${user.getUsername()}"></span> <br>
-                <span data-th-text="${user.getEmail()}"></span> <br>
-                <span data-th-text="${user.getCountry()}"></span> <br>
-                <span data-th-text="${user.getCity()}"></span> <br>
-                <span data-th-text="${user.getLanguage()}"></span> <br>
-                <span data-th-text="${user.getSex()}"></span> <br>
-                <span data-th-text="${user.getAge()}"></span> <br>
-                <img style="width: 300px; height: auto;"
-                     loading="lazy"
-                     data-th-src="@{/api/images/{id} (id=${user.userImage.id})}" alt="user-image">
-                <button class="delete-user" type="submit">Удалить</button>
-            </div>
-            <div>
-                <button onclick="logout()" type="submit">Выйти из аккаунта</button>
-            </div>
-        </section>
+    <main>
+        <div>
+            <strong>логин:</strong> <span th:text="${user.username}"></span><br>
+            <strong>почта:</strong> <span th:text="${user.email}"></span><br>
+            <strong>роль:</strong> <span th:text="${user.roles}"></span><br>
+            <strong>страна:</strong> <span th:text="${user.country}"></span><br>
+            <strong>город:</strong> <span th:text="${user.city}"></span><br>
+            <strong>язык:</strong> <span th:text="${user.language}"></span><br>
+            <strong>пол:</strong> <span th:text="${user.gender}"></span><br>
+            <strong>возраст:</strong> <span th:text="${user.age}"></span><br>
+            <strong>фото:</strong> <img th:if="${user.userImage}"
+                                        style="width: 40px; height: auto; border-radius: 12px"
+                                        th:src="@{/api/images/{id}(id=${user.userImage.id})}" alt="img">
+        </div>
     </main>
+
+    <button type="submit" onclick="logout()">Выйти</button>
 
     <footer class="footer"></footer>
 </div>

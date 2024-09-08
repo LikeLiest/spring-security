@@ -12,13 +12,15 @@ import java.util.List;
 @Data
 @Validated
 public class UserDTO {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(unique = true)
-    @NotBlank(message = "Введите логин")
     @Size(message = "Логин должен содержать от 3 до 20 символов", max = 20, min = 3)
     private String username;
 
-    @NotBlank(message = "Введите пароль")
-    @Size(max = 100, min = 3, message = "Пароль слишком длинный")
+    @Size(max = 100, min = 3, message = "Пароль должен от 3 до 100 символов")
     private String password;
 
     @Column(unique = true)
@@ -26,19 +28,42 @@ public class UserDTO {
     @Email(message = "Введите корректный email")
     private String email;
 
+    @NotNull(message = "Укажите свой город")
+    @NotBlank(message = "Введите город")
     private String city;
-    private String country;
 
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    @NotNull(message = "Укажите свою страну")
+    @NotBlank(message = "Введите страну")
+    private String country;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Roles.class)
     @Enumerated(EnumType.STRING)
     private List<Roles> roles = new ArrayList<>();
 
-    @Pattern(regexp = "^(Male|Female)$", message = "Пол должен быть 'Male', 'Female'")
-    private String sex;
+    @Enumerated(EnumType.STRING)
+    private Language language;
 
+    @Pattern(regexp = "^(Male|Female)$", message = "Пол должен быть 'Male', 'Female'")
+    private String gender;
+
+    @NotNull(message = "Укажите свой возраст")
+    @Max(value = 100, message = "Возраст не может быть больше 100")
     @Min(value = 0, message = "Возраст не может быть отрицательным")
     private int age;
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", roles=" + roles +
+                ", language=" + language +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }
