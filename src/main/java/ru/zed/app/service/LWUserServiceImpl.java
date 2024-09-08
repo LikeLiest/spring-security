@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.zed.app.Model.entity.User.UserEntity;
+import ru.zed.app.Model.entity.User.user_info.Roles;
 import ru.zed.app.Model.entity.User.user_info.UserImage;
 import ru.zed.app.repository.UserRepository;
 
@@ -15,7 +16,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class LWUserServiceImpl implements LWUserService {
-
     private final UserRepository userRepository;
 
     @Override
@@ -64,8 +64,12 @@ public class LWUserServiceImpl implements LWUserService {
 
     @Transactional
     @Override
-    public UserEntity updateUser(UserEntity entity) {
-        return this.userRepository.save(entity);
+    public void updateUserRole(UserEntity entity, Roles role) {
+        Optional<UserEntity> user = userRepository.findByUsername(entity.getUsername());
+        if (user.isPresent()) {
+            UserEntity updatedUser = user.get();
+            updatedUser.setRoles(List.of(role));
+        }
     }
 
     @Override

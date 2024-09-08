@@ -43,35 +43,19 @@ public class Register {
                                         HttpSession session) {
         try {
             UserEntity entity = Mapping.toEntity(dto);
-            entity.setRoles(List.of(Roles.ADMIN));
+            entity.setRoles(List.of(Roles.USER));
             entity.setPassword(encoder.encode(entity.getPassword()));
             userService.saveUserToDatabase(entity, userImage);
             log.info("Saved user: {}", entity.getUsername());
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("username", entity.getUsername());
-            params.add("password", dto.getPassword());
-
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-            ResponseEntity<?> loginResponse = template.postForEntity(LOGIN_URL, request, String.class);
-            log.info(loginResponse.toString());
-
-            log.info("Логин: {}, Пароль: {}", entity.getUsername(), dto.getPassword());
-
-            log.info("Ответ от сервера: статус - {}, тело - {}", loginResponse.getStatusCode(), loginResponse.getBody());
-
-            if (loginResponse.getStatusCode().is2xxSuccessful()) {
-                log.info("Ответ от сервера: статус - {}, тело - {}", loginResponse.getStatusCode(), loginResponse.getBody());
+            if (encoder.matches(dto.getPassword(), entity.getPassword())) {
                 log.info("Успешный вход");
                 session.setAttribute("user", entity);
                 return ResponseEntity.status(HttpStatus.FOUND)
                         .header(HttpHeaders.LOCATION, REDIRECT_TO_ACCOUNT_PAGE).build();
             } else {
-                log.error("Ошибка при входе: {}", loginResponse.getBody());
-                return ResponseEntity.badRequest().body("Ошибка при входе после регистрации. Детали: " + loginResponse.getBody());
+                log.info("Не успешный вход");
+                return ResponseEntity.badRequest().body("Ошибка при входе после регистрации.");
             }
 
         } catch (Exception e) {

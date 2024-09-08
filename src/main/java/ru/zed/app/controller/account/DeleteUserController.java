@@ -25,14 +25,12 @@ public class DeleteUserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("deleteUser/{id:\\d+}")
     public ResponseEntity<String> deleteUserById(@PathVariable Long id, HttpSession session) {
-        session.invalidate();
         return deleteUserFromDatabase(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("deleteUser/{username:[a-zA-Z]+}")
     public ResponseEntity<String> deleteUserByUsername(@PathVariable String username, HttpSession session) {
-        session.invalidate();
         return deleteUserFromDatabase(username);
     }
 

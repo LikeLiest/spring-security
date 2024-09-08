@@ -14,8 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.zed.app.controller.filter.RedirectAuthenticatedUserFilter;
 import ru.zed.app.service.CustomUserDetailsService;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +52,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/LinkWorld/auth/login")
                         .permitAll()
                 )
-                .exceptionHandling(exc -> exc.authenticationEntryPoint((_, response, _) ->
+                .exceptionHandling(exc -> exc.authenticationEntryPoint((request, response, e) ->
                         response.sendRedirect("/LinkWorld/auth/login"))
                 )
                 .addFilterBefore(new RedirectAuthenticatedUserFilter(), UsernamePasswordAuthenticationFilter.class)

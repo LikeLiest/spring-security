@@ -16,13 +16,22 @@
     <div>
         <ul>
             <li data-th-each="user : ${users}">
-                <button id="user-id" th:value="${user.id}" onclick="deleteCurrentUser(this)" type="submit">Удалить
+                <button id="user-id" th:value="${user.id}" onclick="deleteCurrentUser(this)" type="submit">
+                    Удалить
                 </button>
 
-                <form data-th-action="@{/LinkWorld/setAuthorityAdmin}" method="post">
-                    <input type="hidden" name="id" th:value="${user.id}">
-                    <button type="submit">Сделать админом</button>
+                <form id="role-form" method="post" th:action="@{/LinkWorld/setAuthority}">
+                    <input type="hidden" name="id" th:value="${user.id}"/>
+
+                    <label for="roles">Роль:</label>
+                    <select name="role" id="roles">
+                        <option value="ADMIN">Сделать администратором</option>
+                        <option value="USER">Сделать пользователем</option>
+                    </select>
+
+                    <button type="submit" id="form-button">Отправить</button>
                 </form>
+
 
                 <span data-th-text="${user.id}"></span>
                 <span data-th-text="${user.username}"></span>
@@ -32,6 +41,9 @@
                 <span data-th-text="${user.country}"></span>
                 <span data-th-text="${user.sex}"></span>
                 <span data-th-text="${user.roles}"></span>
+
+                <img data-th-src="@{/api/images/{id} (id=${user.userImage.id})}"
+                     style="width: 80px;height: auto;border-radius: 50%" alt="img">
             </li>
         </ul>
     </div>

@@ -25,7 +25,8 @@ public class Auth {
     private static final Logger logger = LoggerFactory.getLogger(Auth.class);
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password,
+    public ResponseEntity<?> login(@RequestParam String username,
+                                   @RequestParam String password,
                                    HttpSession session) {
         Optional<UserEntity> userEntity = this.userService.findUserByUsername(username);
 

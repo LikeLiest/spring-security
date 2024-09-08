@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + username));
-        userEntity.setRoles(List.of(Roles.ADMIN));
+//        userEntity.setRoles(List.of(Roles.ADMIN));
         log.info(userEntity.getRoles().toString());
         return new MyUserDetails(userEntity);
     }
