@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/LinkWorld/auth")
 public class LoginController {
-
     @GetMapping("login")
     public String loginPage() {
         return "auth/login";
     }
-
-
 }

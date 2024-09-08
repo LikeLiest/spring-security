@@ -1,4 +1,4 @@
-package ru.zed.app.Model.entity.User.user_info;
+package ru.zed.app.model.entity.User.user_info;
 
 public enum Language {
     RUSSIAN,

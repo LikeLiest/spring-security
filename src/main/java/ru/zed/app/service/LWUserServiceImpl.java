@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.zed.app.Model.entity.User.UserEntity;
-import ru.zed.app.Model.entity.User.user_info.Roles;
-import ru.zed.app.Model.entity.User.user_info.UserImage;
+import ru.zed.app.model.entity.User.UserEntity;
+import ru.zed.app.model.entity.User.user_info.Roles;
+import ru.zed.app.model.entity.User.user_info.UserImage;
 import ru.zed.app.repository.UserRepository;
 
 import java.io.IOException;

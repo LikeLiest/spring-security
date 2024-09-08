@@ -1,8 +1,8 @@
-package ru.zed.app.Model.Mapping;
+package ru.zed.app.model.Mapping;
 
 import org.springframework.beans.BeanUtils;
-import ru.zed.app.Model.entity.User.user_info.UserDTO;
-import ru.zed.app.Model.entity.User.UserEntity;
+import ru.zed.app.model.entity.User.user_info.UserDTO;
+import ru.zed.app.model.entity.User.UserEntity;
 
 public class Mapping {
 

@@ -1,8 +1,8 @@
 package ru.zed.app.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import ru.zed.app.Model.entity.User.UserEntity;
-import ru.zed.app.Model.entity.User.user_info.Roles;
+import ru.zed.app.model.entity.User.UserEntity;
+import ru.zed.app.model.entity.User.user_info.Roles;
 
 import java.io.IOException;
 import java.util.List;

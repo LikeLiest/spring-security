@@ -8,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.zed.app.Model.entity.User.UserEntity;
+import ru.zed.app.model.entity.User.UserEntity;
 import ru.zed.app.service.LWUserService;
 
 import java.security.Principal;

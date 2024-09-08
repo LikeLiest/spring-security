@@ -1,5 +1,6 @@
 package ru.zed.app.configuration.securityConfiguration;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -53,7 +54,14 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(exc -> exc.authenticationEntryPoint((request, response, e) ->
-                        response.sendRedirect("/LinkWorld/auth/login"))
+                                response.sendRedirect("/LinkWorld/auth/login"))
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                                    response.setContentType("text/plain; charset=UTF-8");
+                                    response.setCharacterEncoding("UTF-8");
+                                    response.getWriter().write("У вас нет прав для доступа к этому ресурсу");
+                                }
+                        )
                 )
                 .addFilterBefore(new RedirectAuthenticatedUserFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();

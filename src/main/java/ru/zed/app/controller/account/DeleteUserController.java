@@ -7,16 +7,16 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.zed.app.Model.entity.User.UserEntity;
+import org.springframework.web.bind.annotation.RestController;
+import ru.zed.app.model.entity.User.UserEntity;
 import ru.zed.app.service.LWUserService;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/LinkWorld")
 public class DeleteUserController {
@@ -24,13 +24,29 @@ public class DeleteUserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("deleteUser/{id:\\d+}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id, HttpSession session) {
+    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
+        return deleteUserFromDatabase(id);
+    }
+
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @DeleteMapping("deleteUserByIdAndClearSession/{id:\\d+}")
+    public ResponseEntity<String> deleteUserByIdAndClearSession(@PathVariable Long id,
+                                                                HttpSession session,
+                                                                HttpServletResponse response) {
+        session.invalidate();
+
+        Cookie cookie = new Cookie("username", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setValue("");
+        response.addCookie(cookie);
+
         return deleteUserFromDatabase(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("deleteUser/{username:[a-zA-Z]+}")
-    public ResponseEntity<String> deleteUserByUsername(@PathVariable String username, HttpSession session) {
+    public ResponseEntity<String> deleteUserByUsername(@PathVariable String username) {
         return deleteUserFromDatabase(username);
     }
 
@@ -62,13 +78,5 @@ public class DeleteUserController {
 
         return entity.map(userEntity -> ResponseEntity.ok("Пользователь успешно удален" + userEntity.getUsername()))
                 .orElseGet(() -> ResponseEntity.ok("Пользователь успешно удален"));
-    }
-
-    private void clearCookies(HttpServletResponse response) {
-        Cookie cookie = new Cookie("username", "");
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        cookie.setValue("");
-        response.addCookie(cookie);
     }
 }

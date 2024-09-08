@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.zed.app.Model.entity.User.UserEntity;
+import ru.zed.app.model.entity.User.UserEntity;
 
 @Controller
 @RequestMapping("/LinkWorld/session")

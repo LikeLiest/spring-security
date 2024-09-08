@@ -18,7 +18,7 @@ deleteUserButtons.forEach(button => {
         event.preventDefault();
         const userId = button.closest('div').querySelector('.user-id').textContent;
         console.log(userId)
-        fetch(`/LinkWorld/deleteUser/${userId}`, {
+        fetch(`/LinkWorld/deleteUserByIdAndClearSession/${userId}`, {
             method: 'DELETE',
         })
             .then(response => {

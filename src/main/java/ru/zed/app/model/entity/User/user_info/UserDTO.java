@@ -1,28 +1,28 @@
-package ru.zed.app.Model.entity.User.user_info;
+package ru.zed.app.model.entity.User.user_info;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
-@Valid
+@Validated
 public class UserDTO {
-
     @Column(unique = true)
-    @NotEmpty(message = "Введите логин")
+    @NotBlank(message = "Введите логин")
     @Size(message = "Логин должен содержать от 3 до 20 символов", max = 20, min = 3)
     private String username;
 
-    @NotEmpty(message = "Введите пароль")
+    @NotBlank(message = "Введите пароль")
     @Size(max = 100, min = 3, message = "Пароль слишком длинный")
     private String password;
 
     @Column(unique = true)
+    @NotBlank(message = "Введите почту")
     @Email(message = "Введите корректный email")
     private String email;
 
